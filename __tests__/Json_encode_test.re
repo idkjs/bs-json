@@ -3,59 +3,59 @@ open Expect;
 open! Json.Encode;
 
 let _ = {
-  test("null", () =>
+  test("null", () => {
     expect(null) |> toEqual @@ Obj.magic(Js.null)
-  );
+  });
 
-  test("string", () =>
+  test("string", () => {
     expect @@ string("foo") |> toEqual @@ Obj.magic("foo")
-  );
+  });
 
-  test("float", () =>
+  test("float", () => {
     expect @@ float(1.23) |> toEqual @@ Obj.magic(1.23)
-  );
+  });
 
-  test("int", () =>
+  test("int", () => {
     expect @@ int(23) |> toEqual @@ Obj.magic(23)
-  );
+  });
 
-  test("bool", () =>
+  test("bool", () => {
     expect @@ bool(true) |> toEqual @@ Obj.magic(true)
-  );
+  });
 
-  test("date", () =>
+  test("date", () => {
     expect @@
     date(Js.Date.fromString("2012-04-23T18:25:43.511Z"))
     |> toEqual @@
     Obj.magic("2012-04-23T18:25:43.511Z")
-  );
+  });
 
-  test("char", () =>
+  test("char", () => {
     expect @@ char('a') |> toEqual @@ Obj.magic("a")
-  );
+  });
 
-  test("jsonDict - empty", () =>
+  test("jsonDict - empty", () => {
     expect @@
     jsonDict @@
     Js.Dict.empty()
     |> toEqual @@
     Obj.magic @@
     Js.Dict.empty()
-  );
+  });
 
-  test("jsonDict - simple", () =>
+  test("jsonDict - simple", () => {
     let o = Js.Dict.empty();
     Js.Dict.set(o, "x", int(42));
 
     expect @@ jsonDict(o) |> toEqual @@ Obj.magic(o);
-  );
+  });
 
-  test("dict - simple", () =>
+  test("dict - simple", () => {
     let o = Js.Dict.empty();
     Js.Dict.set(o, "x", 42);
 
     expect @@ dict(int, o) |> toEqual @@ Obj.magic(o);
-  );
+  });
 
   test("object_ - empty", () =>
     expect @@ object_ @@ [] |> toEqual @@ Obj.magic @@ Js.Dict.empty()

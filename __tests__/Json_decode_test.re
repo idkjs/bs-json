@@ -43,7 +43,7 @@ let () = {
     )
   );
 
-  describe("bool", () =>
+  describe("bool", () => {
     open Json;
     open Decode;
 
@@ -55,9 +55,9 @@ let () = {
     );
 
     Test.throws(bool, [Float, Int, String, Null, Array, Object, Char]);
-  );
+  });
 
-  describe("float", () =>
+  describe("float", () => {
     open Json;
     open! Decode;
 
@@ -69,9 +69,9 @@ let () = {
     );
 
     Test.throws(float, [Bool, String, Null, Array, Object, Char]);
-  );
+  });
 
-  describe("int", () =>
+  describe("int", () => {
     open Json;
     open! Decode;
 
@@ -79,21 +79,21 @@ let () = {
       expect @@ int(Encode.int(23)) |> toEqual(23)
     );
 
-    test("int > 32-bit", () =>
+    test("int > 32-bit", () => {
       /* Use %raw since integer literals > Int32.max_int overflow without warning */
       let big_int = [%raw "2147483648"];
       expect @@ int(Encode.int(big_int)) |> toEqual(big_int);
-    );
-    test("infinity", () =>
+    });
+    test("infinity", () => {
       let inf = [%raw "Infinity"];
       expectFn(int, Encode.int(inf))
       |> toThrowException(Decode.DecodeError("Expected integer, got null"));
-    );
+    });
 
     Test.throws(int, [Bool, Float, String, Null, Array, Object, Char]);
-  );
+  });
 
-  describe("string", () =>
+  describe("string", () => {
     open Json;
     open! Decode;
 
@@ -106,9 +106,9 @@ let () = {
     );
 
     Test.throws(string, [Bool, Float, Int, Null, Array, Object]);
-  );
+  });
 
-  describe("date", () =>
+  describe("date", () => {
     open Json;
     open! Decode;
 
@@ -119,9 +119,9 @@ let () = {
     );
 
     Test.throws(date, [Bool, Float, Int, Null, Array, Object]);
-  );
+  });
 
-  describe("char", () =>
+  describe("char", () => {
     open Json;
     open! Decode;
 
@@ -150,9 +150,9 @@ let () = {
     );
 
     Test.throws(char, [Bool, Float, Int, Null, Array, Object]);
-  );
+  });
 
-  describe("nullable", () =>
+  describe("nullable", () => {
     open Json;
     open! Decode;
 
@@ -186,9 +186,9 @@ let () = {
 
     Test.throws(nullable(int), [Bool, Float, String, Array, Object, Char]);
     Test.throws(nullable(bool), [Int]);
-  );
+  });
 
-  describe("nullAs", () =>
+  describe("nullAs", () => {
     open Json;
     open Decode;
 
@@ -207,9 +207,9 @@ let () = {
     );
 
     Test.throws(nullAs(0), [Bool, Float, Int, String, Array, Object, Char]);
-  );
+  });
 
-  describe("array", () =>
+  describe("array", () => {
     open Json;
     open! Decode;
 
@@ -256,9 +256,9 @@ let () = {
     );
 
     Test.throws(array(int), [Bool, Float, Int, String, Null, Object, Char]);
-  );
+  });
 
-  describe("list", () =>
+  describe("list", () => {
     open Json;
     open! Decode;
 
@@ -302,9 +302,9 @@ let () = {
     );
 
     Test.throws(list(int), [Bool, Float, Int, String, Null, Object, Char]);
-  );
+  });
 
-  describe("pair", () =>
+  describe("pair", () => {
     open Json;
     open! Decode;
 
@@ -353,9 +353,9 @@ let () = {
       )
       |> toThrowException(Failure("fail"))
     );
-  );
+  });
 
-  describe("tuple2", () =>
+  describe("tuple2", () => {
     open Json;
     open! Decode;
 
@@ -399,9 +399,9 @@ let () = {
       )
       |> toThrowException(Failure("fail"))
     );
-  );
+  });
 
-  describe("tuple3", () =>
+  describe("tuple3", () => {
     open Json;
     open! Decode;
 
@@ -446,9 +446,9 @@ let () = {
       )
       |> toThrowException(Failure("fail"))
     );
-  );
+  });
 
-  describe("tuple4", () =>
+  describe("tuple4", () => {
     open Json;
     open! Decode;
 
@@ -505,9 +505,9 @@ let () = {
       )
       |> toThrowException(Failure("fail"))
     );
-  );
+  });
 
-  describe("dict", () =>
+  describe("dict", () => {
     open Json;
     open! Decode;
 
@@ -552,9 +552,9 @@ let () = {
     );
 
     Test.throws(dict(int), [Bool, Float, Int, String, Null, Array, Char]);
-  );
+  });
 
-  describe("field", () =>
+  describe("field", () => {
     open Json;
     open! Decode;
 
@@ -615,9 +615,9 @@ let () = {
       field("foo", int),
       [Bool, Float, Int, String, Null, Array, Object, Char],
     );
-  );
+  });
 
-  describe("at", () =>
+  describe("at", () => {
     open Json;
     open! Decode;
 
@@ -691,9 +691,9 @@ let () = {
       at(["foo", "bar"], int),
       [Bool, Float, Int, String, Null, Array, Object, Char],
     );
-  );
+  });
 
-  describe("optional", () =>
+  describe("optional", () => {
     open Json;
     open! Decode;
 
@@ -773,9 +773,9 @@ let () = {
       expectFn(optional(_ => failwith("fail")), Encode.null)
       |> toThrowException(Failure("fail"))
     );
-  );
+  });
 
-  describe("oneOf", () =>
+  describe("oneOf", () => {
     open Json;
     open! Decode;
 
@@ -799,9 +799,9 @@ let () = {
       oneOf([int, field("x", int)]),
       [Bool, Float, String, Null, Array, Object, Char],
     );
-  );
+  });
 
-  describe("either", () =>
+  describe("either", () => {
     open Json;
     open! Decode;
 
@@ -820,9 +820,9 @@ let () = {
       either(int, field("x", int)),
       [Bool, Float, String, Null, Array, Object, Char],
     );
-  );
+  });
 
-  describe("withDefault", () =>
+  describe("withDefault", () => {
     open Json;
     open! Decode;
 
@@ -852,9 +852,9 @@ let () = {
       expectFn(withDefault(4, _ => failwith("fail")), Encode.int(0))
       |> toThrowException(Failure("fail"))
     );
-  );
+  });
 
-  describe("map", () =>
+  describe("map", () => {
     open Json;
     open! Decode;
 
@@ -866,9 +866,9 @@ let () = {
       int |> map((+)(2)),
       [Bool, Float, String, Null, Array, Object, Char],
     );
-  );
+  });
 
-  describe("andThen", () =>
+  describe("andThen", () => {
     open Json;
     open! Decode;
 
@@ -894,9 +894,9 @@ let () = {
       [Float],
     );
     Test.throws(~name="int to ", int |> andThen(_ => float), [Float]);
-  );
+  });
 
-  describe("composite expressions", () =>
+  describe("composite expressions", () => {
     open Json;
     open! Decode;
 
@@ -934,11 +934,11 @@ let () = {
            ),
          )
     );
-    test("field", () =>
+    test("field", () => {
       let json = parseOrRaise({| { "foo": [1, 2, 3], "bar": "baz" } |});
       expect @@
       (field("foo", array(int), json), field("bar", string, json))
       |> toEqual(([|1, 2, 3|], "baz"));
-    );
-  );
+    });
+  });
 };
