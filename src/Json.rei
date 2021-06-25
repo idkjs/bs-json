@@ -1,4 +1,4 @@
-(** Efficient JSON handling
+/** Efficient JSON handling
 This module has four aspects to it:
 - Parsing, which turns a JSON string into an encoded JSON data structure
 - Stringificaiton, which produces a JSON string from an encoded JSON data structure
@@ -96,21 +96,24 @@ let _ =
         "foo": [1, 2, 3],
         "bar": [9, 8, 7]
       }
-    |} 
+    |}
   )
 ]}
-*) 
+*/;
 
-module Decode = Json_decode
-module Encode = Json_encode
+module Decode = Json_decode;
+module Encode = Json_encode;
 
-exception ParseError of string
+exception ParseError(string);
 
-val parse: string -> Js.Json.t option
-(** [parse s] returns [Some json] if s is a valid json string, [None] otherwise *)
+/** [parse s] returns [Some json] if s is a valid json string, [None] otherwise */
 
-val parseOrRaise: string -> Js.Json.t
-(** [parse s] returns a [Js.Json.t] if s is a valid json string, raises [ParseError] otherwise *)
+let parse: string => option(Js.Json.t);
 
-val stringify: Js.Json.t -> string
-(** [stringify json] returns the [string] representation of the given [Js.Json.t] value *)
+/** [parse s] returns a [Js.Json.t] if s is a valid json string, raises [ParseError] otherwise */
+
+let parseOrRaise: string => Js.Json.t;
+
+/** [stringify json] returns the [string] representation of the given [Js.Json.t] value */
+
+let stringify: Js.Json.t => string;
